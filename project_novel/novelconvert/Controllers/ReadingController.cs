@@ -13,7 +13,14 @@ namespace novelconvert.Controllers
         public ActionResult Index(string id, string chapter)
         {
             ViewBag.BookID = id;
+
+            if(chapter == null)
+            {
+                chapter = "1";
+            }
             ViewBag.Chapter = chapter;
+            ViewBag.NextChapter = Int32.Parse(chapter) + 1;
+            ViewBag.Previous = (Int32.Parse(chapter) > 1) ? Int32.Parse(chapter) - 1 : Int32.Parse(chapter);
 
             DBModel db = new DBModel();
             NovelModel nv = db.SelectOneNovel(id);
