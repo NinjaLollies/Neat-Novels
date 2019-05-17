@@ -6,25 +6,41 @@
 <h2>Reading page @Model.Name</h2>
 <h2>Chapter: @ViewBag.Chapter</h2>
 <nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Previous</a></li>
-    <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Next</a></li>
-  </ul>
+    <ul class="pagination">
+        <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Previous">Previous</a></li>
+        <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.NextChapter">Next</a></li>
+    </ul>
 </nav>
 
-<p>@Model.Link</p>
+
 
 <div class="reading-body">
-
-
+    @using (StreamReader sr = new StreamReader(Server.MapPath("../database/novel_book/" + Model.Link)))
+    {
+        string line = sr.ReadLine(); //first is a chapter
+        while (line.Split(' ')[1] != ViewBag.Chapter)
+        {
+            line = sr.ReadLine();
+        }
+        if (line.Split(' ')[1] == ViewBag.Chapter)
+        {
+            do
+            {
+                if (sr.EndOfStream) { break; }
+                line = sr.ReadLine();
+                <p>@line</p>
+            }
+            while (line.Split(' ')[0] != "Chapter" || sr.EndOfStream); //read next chapter
+        }
+    }
 </div>
 <nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Previous</a></li>
-    <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Next</a></li>
-	<br></br>
-	<br></br>
-	<li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Rate</a></li>
-  </ul>
+    <ul class="pagination">
+        <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Previous">Previous</a></li>
+        <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.NextChapter">Next</a></li>
+        <br></br>
+        <br></br>
+        <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Rate</a></li>
+    </ul>
 </nav>
 
