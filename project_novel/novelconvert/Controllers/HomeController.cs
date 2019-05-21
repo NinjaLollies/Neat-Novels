@@ -7,11 +7,11 @@ namespace novelconvert.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index(int id = 0)
         {
             DBModel db = new DBModel();
-
-            List<NovelModel> nv = db.AllNovel();
+            
+            List<NovelModel> nv = db.TenNovel();
 
             return View(nv);
         }
