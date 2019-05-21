@@ -5,11 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using novelconvert.Models;
 using System.Web.Mvc;
+using System.IO;
 
 namespace novelconvert.Controllers
 {
     public class ReadingController: Controller
     {
+        public ActionResult Voting(int id, string chapter)
+        {
+            DBModel db = new DBModel();
+            bool nv = db.NovelVoted(id);
+            return Redirect("~/Reading/?id=" + id + "&chapter=" + chapter + "");
+        }
+
         public ActionResult Index(string id, string chapter)
         {
             ViewBag.BookID = id;
@@ -18,12 +26,33 @@ namespace novelconvert.Controllers
             {
                 chapter = "1";
             }
+            DBModel db = new DBModel();
+            NovelModel nv = db.SelectOneNovel(id);
+
             ViewBag.Chapter = chapter;
             ViewBag.NextChapter = Int32.Parse(chapter) + 1;
             ViewBag.Previous = (Int32.Parse(chapter) > 1) ? Int32.Parse(chapter) - 1 : Int32.Parse(chapter);
-
-            DBModel db = new DBModel();
-            NovelModel nv = db.SelectOneNovel(id);
+            int chap = 1;
+            //get maximum chapter
+            using (StreamReader sr = new StreamReader(Server.MapPath("~/database/novel_book/" + nv.Link)))
+            {
+                string line = sr.ReadLine(); //first is a chapter
+                while (line != null)
+                {
+                    if(line.ToLower() == ("chapter "+chap))
+                    {
+                        chap += 1;
+                    }
+                    
+                    line = sr.ReadLine();
+                }
+                
+            }
+            if(ViewBag.NextChapter > chap - 1)
+            {
+                ViewBag.NextChapter = chap-1;
+            }
+            
             return View(nv);
         }
     }
