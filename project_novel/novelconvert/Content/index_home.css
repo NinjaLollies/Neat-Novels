@@ -148,7 +148,13 @@
 }
 
 .img-rounded{
-    width:100%;
+    width:75%;
+    height: 80px;
+}
+
+.img-novel-reading{
+    width: 50%;
+    height: 30px;
 }
 
 .novel-reading table tr td{
