@@ -1,0 +1,98 @@
+﻿@model novelconvert.Models.UserModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <h4>UserModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fUsername)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fUsername)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fDate_of_birth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fDate_of_birth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fImage_profile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fImage_profile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fCoin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fCoin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fExperience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fExperience)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fPower)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fPower)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNick_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNick_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.fID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
