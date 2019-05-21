@@ -15,22 +15,28 @@
 
 
 <div class="reading-body">
-    @using (StreamReader sr = new StreamReader(Server.MapPath("../database/novel_book/" + Model.Link)))
+    @using (StreamReader sr = new StreamReader(Server.MapPath("~/database/novel_book/" + Model.Link)))
     {
         string line = sr.ReadLine(); //first is a chapter
-        while (line.Split(' ')[1] != ViewBag.Chapter)
+        if (!sr.EndOfStream)
         {
-            line = sr.ReadLine();
-        }
-        if (line.Split(' ')[1] == ViewBag.Chapter)
-        {
-            do
+            string chapter = "Chapter " + ViewBag.Chapter;
+            while (line.ToLower() != chapter.ToLower())
             {
-                if (sr.EndOfStream) { break; }
                 line = sr.ReadLine();
-                <p>@line</p>
             }
-            while (line.Split(' ')[0] != "Chapter" || sr.EndOfStream); //read next chapter
+            if (line.ToLower() == chapter.ToLower())
+            {
+                do
+                {
+                    if (sr.EndOfStream) { break; }
+                    line = sr.ReadLine();
+                    <p>@line</p>
+                    
+                }
+                while (line.Split(' ')[0] != "Chapter" || sr.EndOfStream); //read next chapter
+            }
+            
         }
     }
 </div>
@@ -40,7 +46,7 @@
         <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.NextChapter">Next</a></li>
         <br></br>
         <br></br>
-        <li class="page-item"><a href="/Reading/?id=@Model.Id&chapter=@ViewBag.Chapter">Rate</a></li>
+        <li class="page-item"><a href="/Reading/Voting/?id=@Model.Id&chapter=@ViewBag.Chapter">Rate</a></li>
     </ul>
 </nav>
 
