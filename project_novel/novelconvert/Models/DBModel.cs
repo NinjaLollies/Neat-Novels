@@ -21,6 +21,72 @@ namespace novelconvert.Models
             
         }
 
+        internal bool NovelVoted(int id)
+        {
+            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    //get vote
+                    NovelModel nv = SelectOneNovel(id.ToString());
+                    int newVote = nv.Voting + 1;
+                    string insertData = "UPDATE novel_infor SET `Voting`=@Voting WHERE id=@idold";
+                    MySqlCommand command = new MySqlCommand(insertData, connection);
+                    //select old novel
+                    command.Parameters.AddWithValue("@idold", id);
+                    command.Parameters.AddWithValue("@Voting", newVote);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        internal List<NovelModel> GetAllNovelByUserId(int id)
+        {
+            string query = "SELECT * FROM `novel_infor` WHERE Owner =" + id;
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            conn.Open();
+
+            var reader = cmd.ExecuteReader();
+
+            List<NovelModel> lresult = new List<NovelModel>();
+            int i = 0;
+            while (reader.Read())
+            {
+                NovelModel readNovel = new NovelModel();
+                readNovel.Id = reader.GetString(0);
+                readNovel.Name = reader.GetString(1);
+                readNovel.Link = reader.GetString(2);
+                readNovel.Author = reader.GetString(3);
+                readNovel.Chap_number = Int32.Parse(reader.GetString(4));
+                readNovel.Rating = Int32.Parse(reader.GetString(5));
+                readNovel.Viewer = Int32.Parse(reader.GetString(6));
+                readNovel.Voting = Int32.Parse(reader.GetString(7));
+                readNovel.Recommandation = Int32.Parse(reader.GetString(8));
+                readNovel.Image_link = reader.GetString(9);
+                //checking null for the owner
+                readNovel.Owner = (reader.GetString(10) != null) ? reader.GetString(10) : "";
+                readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
+
+                lresult.Add(readNovel);
+                i++;
+            }
+            DBCloseConnection(conn);
+
+            return lresult;
+        }
+
         public void DBCloseConnection(MySqlConnection conn)
         {
             conn.Close();
@@ -61,6 +127,9 @@ namespace novelconvert.Models
                 readNovel.Viewer = Int32.Parse(reader.GetString(6));
                 readNovel.Voting = Int32.Parse(reader.GetString(7));
                 readNovel.Recommandation = Int32.Parse(reader.GetString(8));
+                readNovel.Image_link = reader.GetString(9);
+                readNovel.Owner = reader.GetString(10);
+                readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
             }
 
 
@@ -78,9 +147,9 @@ namespace novelconvert.Models
                     try
                     {
                         string insertData = "insert into novel_infor(Name,Link,Author,Chap_number," +
-                                            "Rating, Viewer, Voting, Recommandation, image_link) values "
+                                            "Rating, Viewer, Voting, Recommandation, image_link, Owner,Upload_date) values "
                                             + "(@Name, @Link, @Author, @Chap_number, @Rating, @Viewer, @Voting,"
-                                            + "@Recommandation, @image_link)";
+                                            + "@Recommandation, @image_link, @Owner,@Upload_date)";
                         MySqlCommand command = new MySqlCommand(insertData, connection);
 
                         command.Parameters.AddWithValue("@Name", nv.Name);
@@ -92,6 +161,9 @@ namespace novelconvert.Models
                         command.Parameters.AddWithValue("@Voting", 0);
                         command.Parameters.AddWithValue("@Recommandation", 0);
                         command.Parameters.AddWithValue("@image_link", nv.Image_link);
+                        command.Parameters.AddWithValue("@Owner", nv.Owner);
+                        nv.upload_date = DateTime.Now;
+                        command.Parameters.AddWithValue("@Upload_date", nv.upload_date);
 
                         connection.Open();
                         int result = command.ExecuteNonQuery();
@@ -130,7 +202,8 @@ namespace novelconvert.Models
                     readNovel.Viewer = Int32.Parse(reader.GetString(6));
                     readNovel.Voting = Int32.Parse(reader.GetString(7));
                     readNovel.Recommandation = Int32.Parse(reader.GetString(8));
-                    //readNovel.Image_link = reader.GetString(9);
+                    readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
+                    readNovel.Image_link = reader.GetString(9);
 
                     lresult.Add(readNovel);
                 i++;
@@ -141,7 +214,7 @@ namespace novelconvert.Models
             return lresult;
         }
 
-        public bool EditNovel(NovelModel nv, NovelModel newNv)
+        public bool EditNovel(int nvid, NovelModel newNv)
         {
             string connectionString = "server=localhost;userid=root;password=123456;database=novel";
 
@@ -150,23 +223,22 @@ namespace novelconvert.Models
                 try
                 {
                     string insertData = "UPDATE novel_infor SET `Name`=@Name,"
-                        + "`Link`=@Link,`Author`=@Author,"
+                        + "`Link`=@Link,`Author`=@Author,Viewer=@Viewer,"
                         + "`image_link`=@image_link WHERE id=@idold";
                     MySqlCommand command = new MySqlCommand(insertData, connection);
                     //select old novel
-                    command.Parameters.AddWithValue("@idold", nv.Id);
+                    command.Parameters.AddWithValue("@idold", nvid);
                     //data updated
-                    string name = (newNv.Name != null) ? newNv.Name : nv.Name; //checking null
-                    command.Parameters.AddWithValue("@Name", name);
-
-                    string Link = (newNv.Link != null) ? newNv.Link : nv.Link;
-                    command.Parameters.AddWithValue("@Link", Link);
-
-                    string Author = (newNv.Author != null) ? newNv.Author : nv.Author;
-                    command.Parameters.AddWithValue("@Author", Author);
-
-                    string Image_link = (newNv.Image_link != null) ? newNv.Image_link : nv.Image_link;
+                    command.Parameters.AddWithValue("@Name", newNv.Name);
+                    
+                    command.Parameters.AddWithValue("@Link", newNv.Link);
+                    
+                    command.Parameters.AddWithValue("@Author", newNv.Author);
+                    
                     command.Parameters.AddWithValue("@image_link", newNv.Image_link);
+
+                    command.Parameters.AddWithValue("@Viewer",newNv.Viewer);
+                
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -201,6 +273,44 @@ namespace novelconvert.Models
             }
 
             return true;
+        }
+
+        public List<NovelModel> TenNovel()
+        {
+            string query = "SELECT * FROM `novel_infor` WHERE 1 ORDER BY Upload_date DESC LIMIT 10";
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            conn.Open();
+
+            var reader = cmd.ExecuteReader();
+
+            List<NovelModel> lresult = new List<NovelModel>();
+            int i = 0;
+            while (reader.Read())
+            {
+                NovelModel readNovel = new NovelModel();
+                readNovel.Id = reader.GetString(0);
+                readNovel.Name = reader.GetString(1);
+                readNovel.Link = reader.GetString(2);
+                readNovel.Author = reader.GetString(3);
+                readNovel.Chap_number = Int32.Parse(reader.GetString(4));
+                readNovel.Rating = Int32.Parse(reader.GetString(5));
+                readNovel.Viewer = Int32.Parse(reader.GetString(6));
+                readNovel.Voting = Int32.Parse(reader.GetString(7));
+                readNovel.Recommandation = Int32.Parse(reader.GetString(8));
+                readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
+                if (reader.GetString(9) != null) {
+                    readNovel.Image_link = reader.GetString(9);
+                }
+
+                lresult.Add(readNovel);
+                i++;
+            }
+
+            DBCloseConnection(conn);
+
+            return lresult;
         }
     }
 }
