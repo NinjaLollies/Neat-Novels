@@ -20,15 +20,23 @@ namespace novelconvert.Controllers
 
         public ActionResult Index(string id, string chapter)
         {
-            ViewBag.BookID = id;
-
-            if(chapter == null)
-            {
-                chapter = "1";
-            }
             DBModel db = new DBModel();
             NovelModel nv = db.SelectOneNovel(id);
 
+            //increasing view
+            nv.Viewer += 1;
+            bool viewChecking = db.EditNovel(Int32.Parse(id), nv);
+
+            ViewBag.BookID = id;
+
+            if (chapter == null)
+            {
+                chapter = "1";
+            }
+            //add reading novel
+            bool addNovel = db.AddingReading(Int32.Parse(Request.Cookies["userID"].Value.ToString()), Int32.Parse(id));
+
+            //get chapter and next chapter
             ViewBag.Chapter = chapter;
             ViewBag.NextChapter = Int32.Parse(chapter) + 1;
             ViewBag.Previous = (Int32.Parse(chapter) > 1) ? Int32.Parse(chapter) - 1 : Int32.Parse(chapter);
@@ -39,20 +47,20 @@ namespace novelconvert.Controllers
                 string line = sr.ReadLine(); //first is a chapter
                 while (line != null)
                 {
-                    if(line.ToLower() == ("chapter "+chap))
+                    if (line.ToLower() == ("chapter " + chap))
                     {
                         chap += 1;
                     }
-                    
+
                     line = sr.ReadLine();
                 }
-                
+
             }
-            if(ViewBag.NextChapter > chap - 1)
+            if (ViewBag.NextChapter > chap - 1)
             {
-                ViewBag.NextChapter = chap-1;
+                ViewBag.NextChapter = chap - 1;
             }
-            
+
             return View(nv);
         }
     }
