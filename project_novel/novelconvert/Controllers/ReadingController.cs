@@ -20,14 +20,19 @@ namespace novelconvert.Controllers
 
         public ActionResult Index(string id, string chapter)
         {
+            DBModel db = new DBModel();
+            NovelModel nv = db.SelectOneNovel(id);
+
+            //increasing view
+            nv.Viewer += 1;
+            bool viewChecking = db.EditNovel(Int32.Parse(id), nv);
+
             ViewBag.BookID = id;
 
             if(chapter == null)
             {
                 chapter = "1";
             }
-            DBModel db = new DBModel();
-            NovelModel nv = db.SelectOneNovel(id);
 
             ViewBag.Chapter = chapter;
             ViewBag.NextChapter = Int32.Parse(chapter) + 1;
