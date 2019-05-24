@@ -236,6 +236,7 @@ namespace novelconvert.Models
                     command.Parameters.AddWithValue("@Author", newNv.Author);
                     
                     command.Parameters.AddWithValue("@image_link", newNv.Image_link);
+                
 
                     command.Parameters.AddWithValue("@Viewer",newNv.Viewer);
                 

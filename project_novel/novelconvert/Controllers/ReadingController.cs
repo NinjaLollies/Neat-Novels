@@ -33,7 +33,6 @@ namespace novelconvert.Controllers
             {
                 chapter = "1";
             }
-            
 
             ViewBag.Chapter = chapter;
             ViewBag.NextChapter = Int32.Parse(chapter) + 1;
