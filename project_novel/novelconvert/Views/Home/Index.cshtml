@@ -94,17 +94,24 @@
     <div class="novel-reading">
         <h3>NOVEL READING <span><a href="#">NOVEL</a></span></h3>
         <table class="table">
-            @for (int i = 0; i < 10; i++)
+            @for (int i = 0; i < ViewBag.UserNovel.Count; i++)
             {
-                <tr>
-                    <td><img src="~/database/Image/@Model[i].Image_link" class="img-novel-reading" alt="Cinque Terre"></td>
-                    <td>
-                        <a href="/Reading/Index/?id=@Model[i].Id&Chapter=1">
-                            @Model[i].Name
-                        </a>
-                    </td>
-                    <td style="text-align:right">Continue</td>
-                </tr>
+                if (i >= 10) {
+                    break;
+                }
+                if (ViewBag.UserNovel[i] != null)
+                {
+                    <tr>
+                        <td><img src="~/database/Image/@ViewBag.UserNovel[i].Image_link" class="img-novel-reading" alt="Cinque Terre"></td>
+                        <td>
+                            <a href="/Reading/Index/?id=@ViewBag.UserNovel[i].Id&Chapter=1">
+                                @ViewBag.UserNovel[i].Name
+                            </a>
+                        </td>
+                        <td style="text-align:right">Continue</td>
+                    </tr>
+                }
+
             }
         </table>
     </div>

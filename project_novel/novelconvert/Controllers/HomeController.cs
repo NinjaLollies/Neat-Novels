@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using novelconvert.Models;
 using MySql.Data;
+using System;
 
 namespace novelconvert.Controllers
 {
@@ -12,6 +13,11 @@ namespace novelconvert.Controllers
             DBModel db = new DBModel();
             
             List<NovelModel> nv = db.TenNovel();
+
+            string userID = Request.Cookies["userID"].Value.ToString();
+            List<NovelModel> userNovel = db.GetNovelByUserId(Int32.Parse(userID));
+
+            ViewBag.UserNovel = userNovel;
 
             return View(nv);
         }
