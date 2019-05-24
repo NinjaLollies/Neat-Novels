@@ -238,6 +238,9 @@ namespace novelconvert.Models
 
                     command.Parameters.AddWithValue("@Viewer", newNv.Viewer);
 
+                    command.Parameters.AddWithValue("@Viewer",newNv.Viewer);
+                
+
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
@@ -298,7 +301,9 @@ namespace novelconvert.Models
                 readNovel.Voting = Int32.Parse(reader.GetString(7));
                 readNovel.Recommandation = Int32.Parse(reader.GetString(8));
                 readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
-                readNovel.Image_link = reader.GetString(9);
+                if (reader.GetString(9) != null) {
+                    readNovel.Image_link = reader.GetString(9);
+                }
 
                 lresult.Add(readNovel);
                 i++;
