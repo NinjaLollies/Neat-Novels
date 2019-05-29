@@ -51,7 +51,30 @@ namespace novelconvert.Controllers.Tests
 
             bool um = db.UserNameExistChecking(username);
 
-            Assert.IsFalse(um); //false mean does not exist, true mean user exist
+            Assert.IsTrue(um); //false mean does not exist, true mean user exist
         }
+
+        [TestMethod()]
+        public void RemoveUser()
+        {
+            UserDBModel db = new UserDBModel();
+
+            string userid = "1";
+
+            string adminUsername = "tony@gmail";
+            string adminPass = "123";
+
+            bool isAdmin = db.AdminChecking(adminUsername, adminPass);
+            bool removeUser = false;
+
+            if (isAdmin)
+            {
+                removeUser = db.RemoveUserById(userid);
+            }
+
+            Assert.IsTrue(isAdmin);
+            Assert.IsTrue(removeUser);
+        }
+
     }
 }

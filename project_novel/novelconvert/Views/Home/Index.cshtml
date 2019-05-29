@@ -9,15 +9,42 @@
         <div class="recommand-novel-detail">
 
         </div>
-        <h4>THE WORLD OF THE CHAMPION</h4>
-        <p>Long long time ago, one porn star</p>
+        @for(int j = 9; j > 0; j--)
+        {
+            if(Model[j].Voting > Model[j-1].Voting)
+            {
+                var temp = Model[j];
+                Model[j] = Model[j - 1];
+                Model[j - 1] = temp;
+            }
+        }
+        
+        <h4>
+            <a href="/Reading/Index/?id=@Model[0].Id&Chapter=1">
+                @Model[0].Name
+            </a>
+        </h4>
+        <p>Long long time ago, one the best</p>
     </div>
     <div class="new-chapter">
         @for (int i = 0; i < 6; i++)
         {
+            if (Model[i].Name == null)
+            {
+                break;
+            }
+            for (int j = 5; j > i; j--)
+            {
+                if (Model[j].Viewer > Model[j - 1].Viewer)
+                {
+                    var temp = Model[j];
+                    Model[j] = Model[j - 1];
+                    Model[j - 1] = temp;
+                }
+            }
             <div class="new-chapter-board">
                 <h3>
-                    <a href="#">
+                    <a href="/Reading/Index/?id=@Model[i].Id&Chapter=1">
                         @Model[i].Name
                     </a>
 
@@ -35,11 +62,29 @@
     <div class="top-novel">
         <h3>TOP NOVEL</h3>
         <table class="table">
-            @for (int i = 1; i < 11; i++)
+            @for (int i = 0; i < 10; i++)
             {
+                for(int j = 9; j > i; j--)
+                {
+                    if(Model[j].Voting > Model[j-1].Voting)
+                    {
+                        var temp = Model[j];
+                        Model[j] = Model[j - 1];
+                        Model[j - 1] = temp;
+                    }
+                }
+                if (i == 0)
+                {
+                    continue;
+                }
                 <tr>
-                    <td>@i</td>
-                    <td>@Model[i].Name</td>
+                    <td>@(i+1)</td>
+                    
+                    <td>
+                        <a href="/Reading/Index/?id=@Model[i].Id&Chapter=1">
+                            @Model[i].Name
+                        </a>
+                    </td>
                     <td><span class="badge badge-light">@Model[i].Voting votes</span></td>
                 </tr>
             }
@@ -49,13 +94,24 @@
     <div class="novel-reading">
         <h3>NOVEL READING <span><a href="#">NOVEL</a></span></h3>
         <table class="table">
-            @for (int i = 1; i < 11; i++)
+            @for (int i = 0; i < ViewBag.UserNovel.Count; i++)
             {
-                <tr>
-                    <td><img src="@Model[i].Image_link" class="img-rounded" alt="Cinque Terre"></td>
-                    <td>@Model[i].Name</td>
-                    <td style="text-align:right">Continue</td>
-                </tr>
+                if (i >= 10) {
+                    break;
+                }
+                if (ViewBag.UserNovel[i] != null)
+                {
+                    <tr>
+                        <td><img src="~/database/Image/@ViewBag.UserNovel[i].Image_link" class="img-novel-reading" alt="Cinque Terre"></td>
+                        <td>
+                            <a href="/Reading/Index/?id=@ViewBag.UserNovel[i].Id&Chapter=1">
+                                @ViewBag.UserNovel[i].Name
+                            </a>
+                        </td>
+                        <td style="text-align:right">Continue</td>
+                    </tr>
+                }
+
             }
         </table>
     </div>
@@ -63,11 +119,26 @@
     <div class="new-novel">
         <h3>NEW UPDATE</h3>
         <table class="table">
-            @for (int i = 1; i < 11; i++)
+
+
+            @for (int i = 0; i < 10; i++)
             {
+                for (int j = 9; j > i; j--)
+                {
+                    if (Model[j].upload_date > Model[j - 1].upload_date)
+                    {
+                        var temp = Model[j];
+                        Model[j] = Model[j - 1];
+                        Model[j - 1] = temp;
+                    }
+                }
                 <tr>
-                    <td><img src="@Model[i].Image_link" class="img-rounded" alt="Cinque Terre"></td>
-                    <td>@Model[i].Name</td>
+                    <td><img src="~/database/Image/@Model[i].Image_link" class="img-rounded" alt="Cinque Terre"></td>
+                    <td>
+                        <a href="/Reading/Index/?id=@Model[i].Id&Chapter=1">
+                            @Model[i].Name
+                        </a>
+                    </td>
                     <td style="text-align:center">@Model[i].Author</td>
                     <td style="text-align:center">@Model[i].Chap_number</td>
                     <td style="text-align:center">@Model[i].Recommandation</td>
