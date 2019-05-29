@@ -62,10 +62,10 @@ namespace novelconvert.Controllers
                 novel.upload_date = DateTime.Now;
                 novel.Owner = Request.Cookies["userID"].Value.ToString();
 
-                string image_sourceFile = @"C:\Users\lythe\Desktop\" + novel.Image_link;
+                string image_sourceFile = @"C:\Users\Sujith\Desktop\" + novel.Image_link;
                 string image_destinationFile = Server.MapPath(@"~/database/Image/" + novel.Image_link);
 
-                string sourceFile = @"C:\Users\lythe\Desktop\" + novel.Link;
+                string sourceFile = @"C:\Users\Sujith\Desktop\" + novel.Link;
                 string destinationFile = Server.MapPath(@"~/database/novel_book/" + novel.Link);
 
                 System.IO.File.Copy(image_sourceFile, image_destinationFile, true);

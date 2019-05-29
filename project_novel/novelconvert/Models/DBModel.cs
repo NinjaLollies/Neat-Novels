@@ -16,14 +16,14 @@ namespace novelconvert.Models
 
         public void DBConnection(MySqlConnection conn, string database_name)
         {
-            conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=" + database_name);
+            conn = new MySqlConnection("server=localhost;userid=root;password=;database=" + database_name);
             conn.Open();
             
         }
 
         internal bool NovelVoted(int id)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -53,7 +53,7 @@ namespace novelconvert.Models
         internal List<NovelModel> GetAllNovelByUserId(int id)
         {
             string query = "SELECT * FROM `novel_infor` WHERE Owner =" + id;
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -108,7 +108,7 @@ namespace novelconvert.Models
         public NovelModel SelectOneNovel(string id)
         {
             string query = "SELECT * FROM `novel_infor` WHERE Id='" + id + "'";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -139,7 +139,7 @@ namespace novelconvert.Models
 
         public bool AddNewNovel(NovelModel nv)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -180,7 +180,7 @@ namespace novelconvert.Models
         public List<NovelModel> AllNovel()
         {
             string query = "SELECT * FROM `novel_infor` WHERE 1";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -215,7 +215,7 @@ namespace novelconvert.Models
 
         public bool EditNovel(int nvid, NovelModel newNv)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -255,7 +255,7 @@ namespace novelconvert.Models
 
         public bool RemoveNovelById(string id)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -279,7 +279,7 @@ namespace novelconvert.Models
         public List<NovelModel> TenNovel()
         {
             string query = "SELECT * FROM `novel_infor` WHERE 1 ORDER BY Upload_date DESC LIMIT 10";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -315,7 +315,7 @@ namespace novelconvert.Models
         }
         //adding the reading novel to server
         public bool AddingReading(int user_id, int novel_id) {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
             //checking the user
             UserDBModel userDB = new UserDBModel();
             UserModel user = userDB.GetUserById(user_id);
@@ -363,7 +363,7 @@ namespace novelconvert.Models
         public List<NovelModel> GetNovelByUserId(int id) {
             string query = "SELECT * FROM novel_infor WHERE Id in (select novel_id from reading_infor where user_id = "+id+")";
 
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -402,7 +402,7 @@ namespace novelconvert.Models
         public bool CheckingReading(int user_id, int novel_id)
         {
             string query = "select * from reading_infor where user_id = "+user_id+" and novel_id = "+novel_id+"";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
