@@ -41,10 +41,14 @@ namespace novelconvert.Models
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        return null;
                     }
 
                 }
+            }
+            else
+            {
+                return null;
             }
 
             return UserLogin(username, password);
