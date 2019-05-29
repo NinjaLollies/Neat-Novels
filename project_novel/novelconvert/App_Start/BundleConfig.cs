@@ -22,7 +22,9 @@ namespace novelconvert
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/angularjs.js"));
+                      "~/Scripts/angularjs.js",
+                      "~/Scripts/userProfile.js",
+                      "~/Scripts/NovelUpload.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
@@ -30,7 +32,10 @@ namespace novelconvert
                       "~/Content/index_home.css",
                       "~/Content/style.css",
                       "~/Content/demo.css",
-                      "~/Content/animate-custom.css"));
+                      "~/Content/animate-custom.css",
+                      "~/Content/userProfile.css",
+                      "~/Content/MyNovelList.css",
+                      "~/Content/NovelUpload.css"));
         }
     }
 }

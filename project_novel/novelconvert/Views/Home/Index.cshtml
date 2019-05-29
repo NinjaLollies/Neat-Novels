@@ -5,7 +5,7 @@
 
 <div class="near_head">
     <div class="recommand-comic">
-        <h3>RECOMMEND</h3>
+        <h3>NUMBER ONE NOVEL!</h3>
         <div class="recommand-novel-detail">
 
         </div>
@@ -25,6 +25,7 @@
             </a>
         </h4>
         <p>Long long time ago, one the best</p>
+        <span class="badge badge-light"> @Model[0].Voting Likes</span>
     </div>
     <div class="new-chapter">
         @for (int i = 0; i < 6; i++)
@@ -60,7 +61,7 @@
 
     </div>
     <div class="top-novel">
-        <h3>TOP NOVEL</h3>
+        <h3>TOP NOVELS</h3>
         <table class="table">
             @for (int i = 0; i < 10; i++)
             {
@@ -85,42 +86,39 @@
                             @Model[i].Name
                         </a>
                     </td>
-                    <td><span class="badge badge-light">@Model[i].Voting votes</span></td>
+                    <td><span class="badge badge-light">@Model[i].Voting Likes</span></td>
                 </tr>
             }
         </table>
     </div>
 
     <div class="novel-reading">
-        <h3>NOVEL READING <span><a href="#">NOVEL</a></span></h3>
+        <h3>CONTINUE READING</h3>
         <table class="table">
-            @for (int i = 0; i < ViewBag.UserNovel.Count; i++)
+            @for (int i = 0; i < 10; i++)
             {
-                if (i >= 10) {
-                    break;
-                }
-                if (ViewBag.UserNovel[i] != null)
-                {
-                    <tr>
-                        <td><img src="~/database/Image/@ViewBag.UserNovel[i].Image_link" class="img-novel-reading" alt="Cinque Terre"></td>
-                        <td>
-                            <a href="/Reading/Index/?id=@ViewBag.UserNovel[i].Id&Chapter=1">
-                                @ViewBag.UserNovel[i].Name
-                            </a>
-                        </td>
-                        <td style="text-align:right">Continue</td>
-                    </tr>
-                }
-
+                <tr>
+                    <td><img src="~/database/Image/@Model[i].Image_link" class="img-novel-reading" alt="Cinque Terre"></td>
+                    <td>
+                        <a href="/Reading/Index/?id=@Model[i].Id&Chapter=1">
+                            @Model[i].Name
+                        </a>
+                    </td> 
+                </tr>
             }
         </table>
     </div>
 
     <div class="new-novel">
-        <h3>NEW UPDATE</h3>
+        <h3>RECENTLY UPLOADED NOVELS</h3>
         <table class="table">
-
-
+            <tr>
+                <th>Cover</th>
+                <th>Novel Name</th>
+                <th>Author</th>
+                <th>Available Chapters</th>
+                <th>Likes</th>
+            </tr>
             @for (int i = 0; i < 10; i++)
             {
                 for (int j = 9; j > i; j--)
@@ -141,7 +139,7 @@
                     </td>
                     <td style="text-align:center">@Model[i].Author</td>
                     <td style="text-align:center">@Model[i].Chap_number</td>
-                    <td style="text-align:center">@Model[i].Recommandation</td>
+                    <td style="text-align:center">@Model[i].Voting</td>
                 </tr>
             }
         </table>

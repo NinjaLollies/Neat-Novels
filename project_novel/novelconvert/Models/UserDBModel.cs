@@ -12,7 +12,7 @@ namespace novelconvert.Models
         //register user by username and password
         public UserModel UserRegister(string username, string password)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
             if (!UserExisting(username, password))
             {
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -56,7 +56,7 @@ namespace novelconvert.Models
 
         public bool RemoveUserById(string userid)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             if (AdminChecking(Int32.Parse(userid))) return false;
 
@@ -85,7 +85,7 @@ namespace novelconvert.Models
             if(AdminChecking(adminUsername, adminPass))
             {
                 string query = "SELECT * FROM user_infor WHERE 1";
-                MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+                MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 conn.Open();
@@ -151,7 +151,7 @@ namespace novelconvert.Models
         public UserModel UserLogin(string username, string password)
         {
             string query = "SELECT * FROM `user_infor` WHERE UserName ='" + username + "' and Password ='" + password + "'";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -183,7 +183,7 @@ namespace novelconvert.Models
         public UserModel UserLogin(string username)
         {
             string query = "SELECT * FROM `user_infor` WHERE UserName ='" + username + "'";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -214,7 +214,7 @@ namespace novelconvert.Models
         public UserModel GetUserById(int id)
         {
             string query = "SELECT * FROM `user_infor` WHERE id =" + id + "";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -244,7 +244,7 @@ namespace novelconvert.Models
         //Edit user information
         public bool EditUser(int id, UserModel newUser)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {

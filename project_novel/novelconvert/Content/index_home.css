@@ -8,7 +8,7 @@
 
 .near_head{
     background-color:#fff;
-    margin-top:300px;
+    margin-top:100px;
     margin-left:20px;
     margin-right:20px;
     min-height:2000px;
@@ -97,7 +97,7 @@
 }
 
 .new-chapter-board p{
-    color:#e0deda;
+    color:#b1a895;
     font-style:italic;
 }
 
@@ -165,9 +165,19 @@
     float:right;
     width:64%;
     padding-right:1%;
-    margin-top:-3.5%;
+    margin-top:3%;
 }
 
 .new-novel table tr td{
     width:10%;
+    text-align:center;
+}
+
+.new-novel table tr th{
+    text-align:center;
+}
+
+.new-novel h3{
+    color: #ff920b;
+
 }
