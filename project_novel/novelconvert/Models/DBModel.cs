@@ -132,7 +132,6 @@ namespace novelconvert.Models
                 readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
             }
 
-
             conn.Close();
 
             return readNovel;
@@ -223,7 +222,7 @@ namespace novelconvert.Models
                 try
                 {
                     string insertData = "UPDATE novel_infor SET `Name`=@Name,"
-                        + "`Link`=@Link,`Author`=@Author,Viewer=@Viewer,"
+                        + "`Link`=@Link,`Author`=@Author,Viewer = @Viewer,"
                         + "`image_link`=@image_link WHERE id=@idold";
                     MySqlCommand command = new MySqlCommand(insertData, connection);
                     //select old novel
@@ -236,6 +235,8 @@ namespace novelconvert.Models
                     command.Parameters.AddWithValue("@Author", newNv.Author);
                     
                     command.Parameters.AddWithValue("@image_link", newNv.Image_link);
+
+                    command.Parameters.AddWithValue("@Viewer", newNv.Viewer);
 
                     command.Parameters.AddWithValue("@Viewer",newNv.Viewer);
                 
@@ -311,6 +312,114 @@ namespace novelconvert.Models
             DBCloseConnection(conn);
 
             return lresult;
+        }
+        //adding the reading novel to server
+        public bool AddingReading(int user_id, int novel_id) {
+            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            //checking the user
+            UserDBModel userDB = new UserDBModel();
+            UserModel user = userDB.GetUserById(user_id);
+
+            if (user.fID == null)
+            {
+                return false;
+            }
+            //checking the existing novel
+            if (SelectOneNovel(novel_id.ToString()) != null)
+            {
+                if (!CheckingReading(user_id, novel_id))
+                {
+                    //insert those infor to table
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            string insertData = "insert into reading_infor(user_id, novel_id) values "
+                                                + "(@user_id, @novel_id)";
+                            MySqlCommand command = new MySqlCommand(insertData, connection);
+
+                            command.Parameters.AddWithValue("@user_id", user_id);
+                            command.Parameters.AddWithValue("@novel_id", novel_id);
+
+                            connection.Open();
+                            int result = command.ExecuteNonQuery();
+                        }
+                        catch (Exception ex)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        //get novel by user id
+        public List<NovelModel> GetNovelByUserId(int id) {
+            string query = "SELECT * FROM novel_infor WHERE Id in (select novel_id from reading_infor where user_id = "+id+")";
+
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            conn.Open();
+
+            var reader = cmd.ExecuteReader();
+
+            List<NovelModel> lresult = new List<NovelModel>();
+            int i = 0;
+            while (reader.Read())
+            {
+                NovelModel readNovel = new NovelModel();
+                readNovel.Id = reader.GetString(0);
+                readNovel.Name = reader.GetString(1);
+                readNovel.Link = reader.GetString(2);
+                readNovel.Author = reader.GetString(3);
+                readNovel.Chap_number = Int32.Parse(reader.GetString(4));
+                readNovel.Rating = Int32.Parse(reader.GetString(5));
+                readNovel.Viewer = Int32.Parse(reader.GetString(6));
+                readNovel.Voting = Int32.Parse(reader.GetString(7));
+                readNovel.Recommandation = Int32.Parse(reader.GetString(8));
+                readNovel.upload_date = Convert.ToDateTime(reader.GetString(11));
+                readNovel.Image_link = reader.GetString(9);
+
+                lresult.Add(readNovel);
+                i++;
+            }
+
+            DBCloseConnection(conn);
+
+
+
+            return lresult;
+        }
+
+        //checking reading
+        public bool CheckingReading(int user_id, int novel_id)
+        {
+            string query = "select * from reading_infor where user_id = "+user_id+" and novel_id = "+novel_id+"";
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            conn.Open();
+
+            var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                if(reader.GetString(0) != null)
+                {
+                    //exist
+                    return true;
+                }
+            }
+
+            conn.Close();
+
+            return false;
         }
     }
 }

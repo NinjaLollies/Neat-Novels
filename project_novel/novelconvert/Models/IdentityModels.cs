@@ -29,5 +29,9 @@ namespace novelconvert.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<novelconvert.Models.UserModel> UserModels { get; set; }
+
+        public System.Data.Entity.DbSet<novelconvert.Models.NovelModel> NovelModels { get; set; }
     }
 }
