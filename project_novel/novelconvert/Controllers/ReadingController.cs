@@ -54,7 +54,6 @@ namespace novelconvert.Controllers
 
                     line = sr.ReadLine();
                 }
-
             }
             if (ViewBag.NextChapter > chap - 1)
             {

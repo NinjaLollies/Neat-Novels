@@ -97,18 +97,34 @@ namespace novelconvert.Controllers
         [HttpPost]
         public ActionResult Login(UserModel user)
         {
-            UserDBModel db = new UserDBModel();
-            UserModel luser = db.UserLogin(user.fUsername, user.fPassword);
-
-            Response.Cookies["user"].Value = luser.fUsername;
-            Response.Cookies["userID"].Value = luser.fID;
-
-            if(db.AdminChecking(luser.fUsername, luser.fPassword))
+            if(user.fUsername != null && user.fPassword != null)
             {
-                string id = luser.fID;
-                return Redirect(@"../Admin/Index/?id=" + id);
+                UserDBModel db = new UserDBModel();
+                UserModel luser = db.UserLogin(user.fUsername, user.fPassword);
+
+                if(luser.fUsername != null)
+                {
+                    Response.Cookies["user"].Value = luser.fUsername;
+                    Response.Cookies["userID"].Value = luser.fID;
+
+                    if (db.AdminChecking(luser.fUsername, luser.fPassword))
+                    {
+                        string id = luser.fID;
+                        return Redirect(@"../Admin/Index/?id=" + id);
+                    }
+                    return Redirect("../Home/Index/?id=" + luser.fID);
+                }
+                else
+                {
+                    ModelState.AddModelError("","Wrong username or password");
+                }
+               
             }
-            return Redirect("../Home/Index/?id="+ luser.fID);
+            else
+            {
+                ModelState.AddModelError("", "should not empty username or password");
+            }
+            return RedirectToAction("../User/Login/");
         }
 
         public ActionResult LogOff()
