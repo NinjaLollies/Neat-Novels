@@ -19,7 +19,7 @@ namespace core21.Models
 
         internal bool NovelVoted(int id)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -49,7 +49,7 @@ namespace core21.Models
         internal List<NovelModel> GetAllNovelByUserId(int id)
         {
             string query = "SELECT * FROM `novel_infor` WHERE Owner =" + id;
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -104,7 +104,7 @@ namespace core21.Models
         public NovelModel SelectOneNovel(string id)
         {
             string query = "SELECT * FROM `novel_infor` WHERE Id='" + id + "'";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -136,7 +136,7 @@ namespace core21.Models
 
         public bool AddNewNovel(NovelModel nv)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -177,7 +177,7 @@ namespace core21.Models
         public List<NovelModel> AllNovel()
         {
             string query = "SELECT * FROM `novel_infor` WHERE 1";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
@@ -212,7 +212,7 @@ namespace core21.Models
 
         public bool EditNovel(int nvid, NovelModel newNv)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -250,7 +250,7 @@ namespace core21.Models
 
         public bool RemoveNovelById(string id)
         {
-            string connectionString = "server=localhost;userid=root;password=123456;database=novel";
+            string connectionString = "server=localhost;userid=root;password=;database=novel";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -274,7 +274,7 @@ namespace core21.Models
         public List<NovelModel> TenNovel()
         {
             string query = "SELECT * FROM `novel_infor` WHERE 1 ORDER BY Upload_date DESC LIMIT 10";
-            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=123456;database=novel");
+            MySqlConnection conn = new MySqlConnection("server=localhost;userid=root;password=;database=novel");
 
             MySqlCommand cmd = new MySqlCommand(query, conn);
             conn.Open();
