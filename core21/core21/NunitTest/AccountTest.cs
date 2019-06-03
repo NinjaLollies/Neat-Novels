@@ -17,7 +17,7 @@ namespace core21.NunitTest
         {
             UserDBModel db = new UserDBModel();
             //Model that contains user details
-            string email = "2a@live.com";
+            string email = "4a@live.com";
             string password = "abcd1234";
 
             UserModel um = db.UserRegister(email, password);
