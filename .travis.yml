@@ -8,3 +8,5 @@ script:
   - dotnet restore
   - dotnet build
   - dotnet test
+services:
+  - mysql
