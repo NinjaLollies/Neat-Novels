@@ -11,4 +11,4 @@ script:
 services:
   - mysql
 before_install:
-  - mysql -u root --password="" < $HOME/core21/database/novel.sql
+  - mysql -u root --password="" < $HOME/build/NinjaLollies/Neat-Novel/core21/core21/database/novel.sql
