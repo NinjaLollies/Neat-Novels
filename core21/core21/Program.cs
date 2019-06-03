@@ -12,7 +12,7 @@ namespace core21
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main1(string[] args)
         {
             BuildWebHost(args).Run();
         }

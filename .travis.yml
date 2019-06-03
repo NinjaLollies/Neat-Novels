@@ -7,3 +7,4 @@ script:
   - cd core21
   - dotnet restore
   - dotnet build
+  - dotnet test
