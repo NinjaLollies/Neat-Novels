@@ -11,4 +11,5 @@ script:
 services:
   - mysql
 before_install:
+  - cd core21
   - mysql -u root --password="" < database/novel.sql
