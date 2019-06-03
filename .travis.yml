@@ -11,4 +11,4 @@ script:
 services:
   - mysql
 before_install:
-  - mysql -e 'CREATE DATABASE novel;
+  - mysql -e 'CREATE DATABASE novel;'
