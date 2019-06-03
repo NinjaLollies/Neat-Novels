@@ -24,7 +24,9 @@ namespace core21.Controllers
             ViewBag.Message = "Your application description page.";
 
             return View();
+            int a = 10;
         }
+        
 
         public IActionResult Contact()
         {
