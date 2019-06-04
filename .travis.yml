@@ -7,3 +7,8 @@ script:
   - cd core21
   - dotnet restore
   - dotnet build
+  - dotnet test
+services:
+  - mysql
+before_install:
+  - mysql -u root --password="" < $HOME/build/NinjaLollies/Neat-Novels/core21/core21/database/novel.sql
